@@ -7,6 +7,7 @@ from gensim import similarities
 import sys
 import xml.etree.ElementTree as ET
 
+
 class MyCorpus:
     def __init__(self, folder_name):
         self.folder_name = folder_name
@@ -57,7 +58,7 @@ def get_index_file_name(folder_name):
 
 def process_text_file(foldername, filename):
     file_path = os.path.join(foldername, filename)
-    print(file_path)
+    # print(file_path)
     with open(file_path) as fp:
         text = ' '.join(normalize(line) for line in fp if line)
     # print(text)
@@ -66,7 +67,7 @@ def process_text_file(foldername, filename):
 
 def process_xml_file(foldername, filename):
     file_path = os.path.join(foldername, filename)
-    print(file_path)
+    #print(file_path)
 
     tree = ET.parse(file_path)
     root = tree.getroot()
@@ -74,11 +75,10 @@ def process_xml_file(foldername, filename):
     print(raw_text)
     # break into lines and remove leading and trailing space on each
     lines = (line.strip() for line in raw_text.splitlines())
-    #remove punctuation
+    # remove punctuation
     text = ' '.join(normalize(chunk) for line in lines for chunk in line.split())
     print(text)
     return text
-
 
 
 def get_stop_list():
@@ -128,8 +128,8 @@ def create_dictionary(processed_corpus, compact=True):
     return dictionary
 
 
-def create_index(index_folder, docs_folder, model_type = 'tfidf'):
-    #processed_corpus = get_example_corpus()
+def create_index(index_folder, docs_folder, model_type='tfidf'):
+    # processed_corpus = get_example_corpus()
     processed_corpus = MyCorpus(docs_folder)
     # for vector in processed_corpus:  # load one vector into memory at a time
     #    print(vector)
@@ -142,13 +142,14 @@ def create_index(index_folder, docs_folder, model_type = 'tfidf'):
     dictionary_file_name = get_dictionary_file_name(index_folder)
     dictionary.save(dictionary_file_name)
 
-    #new_doc = "Human computer interaction"
-    new_doc = "system minors"
+    # new_doc = "Human computer interaction"
+    new_doc = "system system minors"
+    print('Example document: ', new_doc)
     new_vec = dictionary.doc2bow(new_doc.lower().split())
-    print(new_vec)
+    print('Example document as bow vector: ', new_vec)
 
     bow_corpus = [dictionary.doc2bow(text) for text in processed_corpus]
-    #pprint.pprint(bow_corpus)
+    # pprint.pprint(bow_corpus)
 
     # train the model
     if model_type == 'tfidf':
@@ -156,14 +157,14 @@ def create_index(index_folder, docs_folder, model_type = 'tfidf'):
     elif model_type == 'okapi':
         model = models.OkapiBM25Model(bow_corpus)
     else:
-        print ('Model type not recognized')
+        print('Model type not recognized')
         exit(1)
     model_file_name = get_model_file_name(index_folder)
     model.save(model_file_name)
 
     # transform the "system minors" string
-    words = "system system minors".lower().split()
-    print(model[dictionary.doc2bow(words)])
+    words = new_doc.lower().split()
+    print('Example document as tfidf vector ',model[dictionary.doc2bow(words)])
 
     index = similarities.SparseMatrixSimilarity(model[bow_corpus], num_features=length)
     index_file_name = get_index_file_name(index_folder)

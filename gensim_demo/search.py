@@ -1,9 +1,8 @@
-import pprint
 from gensim import corpora
 from gensim import models
 from gensim import similarities
 
-import index
+from gensim_demo import index
 import sys
 
 def search(index_folder, query):
@@ -12,15 +11,15 @@ def search(index_folder, query):
 
     query_document = query.strip().split()
     query_bow = dictionary.doc2bow(query_document)
-    print(query_bow)
+    print('query bow: ', query_bow)
 
     index_matrix = similarities.MatrixSimilarity.load(index.get_index_file_name(index_folder))
     model = models.TfidfModel.load(index.get_model_file_name(index_folder))
 
+    print('query tfidf vector: ',model[query_bow])
     sims = index_matrix[model[query_bow]]
 
-    #print(list(enumerate(sims)))
-
+    print('Returned documents:')
     for document_number, score in sorted(enumerate(sims), key=lambda x: x[1], reverse=True):
         print(document_number, score)
 
