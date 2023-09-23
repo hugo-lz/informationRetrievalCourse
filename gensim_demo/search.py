@@ -16,7 +16,6 @@ from gensim_demo import index
 import sys
 
 def search(index_folder, query):
-
     dictionary = corpora.Dictionary.load(index.get_dictionary_file_name(index_folder))
 
     query_document = index.generate_terms(query)
@@ -34,7 +33,6 @@ def search(index_folder, query):
     for document_number, score in sorted(enumerate(sims), key=lambda x: x[1], reverse=True):
         print(document_number, score)
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     index_folder = '../index'
     i = 1
