@@ -1,3 +1,13 @@
+"""
+index.py
+Author: Javier Nogueras Iso
+Last update: 2023-09-22
+
+Program to create a term-document matrix index with either a vector model (tf-idf) or OkapiBM25 model.
+This program is based on the gensim Python library. See https://github.com/RaRe-Technologies/gensim/#documentation .
+Usage: python index.py -docs <doc folder> -index <index folder> -language <english|spanish>
+"""
+
 import os
 import pprint
 import sys

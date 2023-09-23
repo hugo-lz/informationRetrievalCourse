@@ -1,3 +1,13 @@
+"""
+index.py
+Author: Javier Nogueras Iso
+Last update: 2023-09-22
+
+Program to search a free text query on a previously created term-document matrix index with either a vector model (tf-idf) or OkapiBM25 model
+This program is based on the gensim Python library. See https://github.com/RaRe-Technologies/gensim/#documentation .
+Usage: python search.py -index <index folder> -language <english|spanish>
+"""
+
 from gensim import corpora
 from gensim import models
 from gensim import similarities
