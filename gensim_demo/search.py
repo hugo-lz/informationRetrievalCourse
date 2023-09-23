@@ -9,7 +9,8 @@ def search(index_folder, query):
 
     dictionary = corpora.Dictionary.load(index.get_dictionary_file_name(index_folder))
 
-    query_document = query.strip().split()
+    query_document = index.generate_terms(query)
+    print('query words: ', query_document)
     query_bow = dictionary.doc2bow(query_document)
     print('query bow: ', query_bow)
 
@@ -25,12 +26,17 @@ def search(index_folder, query):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    index_folder = 'index'
+    index_folder = '../index'
     i = 1
     while (i < len(sys.argv)):
         if sys.argv[i] == '-index':
             index_folder = sys.argv[i+1]
             i = i + 1
+        elif sys.argv[i] == '-language':
+            # -language is expected to be either 'english' or 'spanish'
+            index.LANGUAGE = sys.argv[i + 1]
+            i = i + 1
+        i = i + 1
 
     #query = 'system engineering'
     query = input('Introduce a query: ')

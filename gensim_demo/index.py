@@ -1,40 +1,15 @@
-import pprint
 import os
+import pprint
+import sys
+import xml.etree.ElementTree as ET
 
 from gensim import corpora
 from gensim import models
 from gensim import similarities
-import sys
-import xml.etree.ElementTree as ET
+from nltk.stem.snowball import SnowballStemmer
 
-
-class MyCorpus:
-    def __init__(self, folder_name):
-        self.folder_name = folder_name
-
-    def __iter__(self):
-        for file in sorted(os.listdir(self.folder_name)):
-            if file.endswith('.xml') > 0:
-                text = process_xml_file(self.folder_name, file)
-            else:
-                text = process_text_file(self.folder_name, file)
-            yield generate_terms(text)
-
-
-def normalize(word):
-    x = ",;:.-/\\(){}[]¿?¡!\"#&'+*%$_"
-    y = "                          "
-    table = str.maketrans(x, y)
-    return word.translate(table).strip()
-
-
-def generate_terms(text):
-    stoplist = get_stop_list()
-
-    word_vector = [word for word in text.lower().split() if word not in stoplist]
-
-    return word_vector
-
+LANGUAGE = 'english'
+#LANGUAGE = 'spanish'
 
 def create_folder(folder_name):
     if (not os.path.exists(folder_name)):
@@ -55,6 +30,44 @@ def get_index_file_name(folder_name):
     create_folder(folder_name)
     return os.path.join(folder_name, 'index')
 
+def apply_stemming(words):
+    # the stemmer requires a language parameter
+    snow_stemmer = SnowballStemmer(language=LANGUAGE)
+
+    # stem's of each word
+    stem_words = []
+    for w in words:
+        x = snow_stemmer.stem(w)
+        stem_words.append(x)
+
+    # print stemming results
+    #for e1, e2 in zip(words, stem_words):
+    #    print(e1 + ' ----> ' + e2)
+
+    return stem_words
+
+def get_stop_list():
+    if LANGUAGE == 'english':
+        return set('for a of the and to in'.split(' '))
+    elif LANGUAGE == 'spanish':
+        return set('para un una unos unas de el la lo los las y a en'.split(' '))
+
+def generate_terms(text, stemming=True):
+    stoplist = get_stop_list()
+
+    word_vector = [word for word in text.lower().split() if word not in stoplist]
+
+    if stemming:
+        #apply stemming
+        word_vector = apply_stemming(word_vector)
+
+    return word_vector
+
+def normalize(word):
+    x = ",;:.-/\\(){}[]¿?¡!\"#&'+*%$_"
+    y = "                          "
+    table = str.maketrans(x, y)
+    return word.translate(table).strip()
 
 def process_text_file(foldername, filename):
     file_path = os.path.join(foldername, filename)
@@ -72,18 +85,25 @@ def process_xml_file(foldername, filename):
     tree = ET.parse(file_path)
     root = tree.getroot()
     raw_text = "".join(root.itertext())
-    print(raw_text)
+    #print(raw_text)
     # break into lines and remove leading and trailing space on each
     lines = (line.strip() for line in raw_text.splitlines())
     # remove punctuation
     text = ' '.join(normalize(chunk) for line in lines for chunk in line.split())
-    print(text)
+    # print(text)
     return text
 
+class MyCorpus:
+    def __init__(self, folder_name):
+        self.folder_name = folder_name
 
-def get_stop_list():
-    return set('for a of the and to in'.split(' '))
-
+    def __iter__(self):
+        for file in sorted(os.listdir(self.folder_name)):
+            if file.endswith('.xml') > 0:
+                text = process_xml_file(self.folder_name, file)
+            else:
+                text = process_text_file(self.folder_name, file)
+            yield generate_terms(text)
 
 def get_example_corpus():
     text_corpus = [
@@ -114,7 +134,6 @@ def get_example_corpus():
 
     return processed_corpus
 
-
 def create_dictionary(processed_corpus, compact=True):
     dictionary = corpora.Dictionary(processed_corpus)
 
@@ -126,7 +145,6 @@ def create_dictionary(processed_corpus, compact=True):
 
     # print(dictionary)
     return dictionary
-
 
 def create_index(index_folder, docs_folder, model_type='tfidf'):
     # processed_corpus = get_example_corpus()
@@ -145,7 +163,9 @@ def create_index(index_folder, docs_folder, model_type='tfidf'):
     # new_doc = "Human computer interaction"
     new_doc = "system system minors"
     print('Example document: ', new_doc)
-    new_vec = dictionary.doc2bow(new_doc.lower().split())
+    new_doc_words = generate_terms(new_doc)
+    print('Example document words: ', new_doc_words)
+    new_vec = dictionary.doc2bow(new_doc_words)
     print('Example document as bow vector: ', new_vec)
 
     bow_corpus = [dictionary.doc2bow(text) for text in processed_corpus]
@@ -162,9 +182,8 @@ def create_index(index_folder, docs_folder, model_type='tfidf'):
     model_file_name = get_model_file_name(index_folder)
     model.save(model_file_name)
 
-    # transform the "system minors" string
-    words = new_doc.lower().split()
-    print('Example document as tfidf vector ',model[dictionary.doc2bow(words)])
+    # transform the "system system minors" string
+    print('Example document as tfidf vector ',model[new_vec])
 
     index = similarities.SparseMatrixSimilarity(model[bow_corpus], num_features=length)
     index_file_name = get_index_file_name(index_folder)
@@ -173,8 +192,8 @@ def create_index(index_folder, docs_folder, model_type='tfidf'):
 
 if __name__ == '__main__':
 
-    index_folder = 'index'
-    docs_folder = 'docs'
+    index_folder = '../index'
+    docs_folder = '../docs'
     i = 1
     while i < len(sys.argv):
         if sys.argv[i] == '-index':
@@ -182,6 +201,10 @@ if __name__ == '__main__':
             i = i + 1
         elif sys.argv[i] == '-docs':
             docs_folder = sys.argv[i + 1]
+            i = i + 1
+        elif sys.argv[i] == '-language':
+            # -language is expected to be either 'english' or 'spanish'
+            LANGUAGE = sys.argv[i + 1]
             i = i + 1
         i = i + 1
 
