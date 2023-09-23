@@ -21,6 +21,8 @@ from nltk.stem.snowball import SnowballStemmer
 LANGUAGE = 'english'
 #LANGUAGE = 'spanish'
 
+STOP_LIST = None
+
 def create_folder(folder_name):
     if (not os.path.exists(folder_name)):
         os.mkdir(folder_name)
@@ -57,10 +59,15 @@ def apply_stemming(words):
     return stem_words
 
 def get_stop_list():
-    if LANGUAGE == 'english':
-        return set('for a of the and to in'.split(' '))
-    elif LANGUAGE == 'spanish':
-        return set('para un una unos unas de el la lo los las y a en'.split(' '))
+    global STOP_LIST
+    if STOP_LIST is not None:
+        return STOP_LIST
+    else:
+        if LANGUAGE == 'english':
+            STOP_LIST = set('for a of the and to in'.split(' '))
+        elif LANGUAGE == 'spanish':
+            STOP_LIST = set('para un una unos unas de el la lo los las y a en'.split(' '))
+        return STOP_LIST
 
 def generate_terms(text, stemming=True):
     stoplist = get_stop_list()
