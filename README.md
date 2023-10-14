@@ -3,3 +3,5 @@ Some code examples of information retrieval systems to illustrate the topics pre
 
 Current examples:
 * gensim_demo: Sample programs for indexing text/xml files, and search free text queries using the [gensim Python library](https://github.com/RaRe-Technologies/gensim/#documentation) .
+* embeddings: Sample program to test how to represent documents and queries in terms of word vectors, and obtain a ranking of documents more similar to the query according to this representation. This program is based on the gensim Python library and the [Word2Vec tutorial](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html).
+
