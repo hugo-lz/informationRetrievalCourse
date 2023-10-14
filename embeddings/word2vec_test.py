@@ -37,7 +37,7 @@ def load_word_vec_model():
         if index == 5:
             break
         print(f"word #{index}/{len(wv.index_to_key)} is {word}")
-        if index == 0:
+        if index == 4:
             pprint.pprint (wv[word])
     return wv
 
@@ -89,12 +89,14 @@ class Searcher:
         self.doc_vectors = self.generate_doc_vectors()
 
     def search(self, query):
-        query_vector = self.generate_query_vector(query)
-        similarities = cosine_similarity(query_vector, self.doc_vectors)
-        similarities[0]
-        print('Ranking of documents according to similarity: ')
-        for document_number, score in sorted(enumerate(similarities[0]), key=lambda x: x[1], reverse=True):
-            print(document_number, score)
+        query = query.strip()
+        if len(query) > 0:
+            query_vector = self.generate_query_vector(query)
+            similarities = cosine_similarity(query_vector, self.doc_vectors)
+            similarities[0]
+            print('Ranking of documents according to similarity: ')
+            for document_number, score in sorted(enumerate(similarities[0]), key=lambda x: x[1], reverse=True):
+                print(document_number, score)
 
 
 if __name__ == '__main__':
