@@ -38,7 +38,7 @@ def load_word_vec_model():
             break
         print(f"word #{index}/{len(wv.index_to_key)} is {word}")
         if index == 4:
-            pprint.pprint (wv[word])
+            pprint.pprint(wv[word])
     return wv
 
 
@@ -56,14 +56,28 @@ def process_text_file(foldername, filename):
 
 
 def generate_vector_from_words(wv, words):
+    '''
+    :param wv: the word2vec representation of each word
+    :param words: the words contained in the document/query
+    :return: the final vector representing the document/query as the centroid of the normalized vectors of each word
+    '''
     result = np.zeros(300)
+    i = 0.0
     for word in words:
         try:
             word_vec = wv[word]
-            result += np.asarray(word_vec)
+            result += l2normalize(np.asarray(word_vec))
+            i += 1.0
         except KeyError:
             print(word, " does not appear in this model")
+    result = result / i # Computation of the centroid
     return result
+
+
+def l2normalize(doc_vector):
+    # Perform L2 normalization
+    l2_norm = np.linalg.norm(doc_vector, 2)
+    return doc_vector / l2_norm
 
 
 class Searcher:
@@ -103,7 +117,7 @@ if __name__ == '__main__':
 
     searcher = Searcher('docs')
     query = 'workstation'
-    print(f'\'{query}\' as a example of a query containing a word not contained in the collection.')
+    print(f'\'{query}\' as an example of a query containing a word not contained in the collection.')
     while query != 'q':
         searcher.search(query)
         query = input('Introduce a query (\'q\' for exit): ')
