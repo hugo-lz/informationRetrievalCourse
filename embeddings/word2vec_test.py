@@ -107,7 +107,6 @@ class Searcher:
         if len(query) > 0:
             query_vector = self.generate_query_vector(query)
             similarities = cosine_similarity(query_vector, self.doc_vectors)
-            similarities[0]
             print('Ranking of documents according to similarity: ')
             for document_number, score in sorted(enumerate(similarities[0]), key=lambda x: x[1], reverse=True):
                 print(document_number, score)
