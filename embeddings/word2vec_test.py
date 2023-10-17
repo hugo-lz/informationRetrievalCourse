@@ -31,8 +31,9 @@ def load_word_vec_model():
         # The source of these word vectors can be found here: https://code.google.com/archive/p/word2vec/
         wv = api.load('word2vec-google-news-300')
         wv.save(keyedvectors_file_name)
-        # Examples about how to read the content of the word_vectors loaded by gensim
-        print('Some examples of words encoded with word2vec:')
+
+    # Examples about how to read the content of the word_vectors loaded by gensim
+    print('Some examples of words encoded with word2vec:')
     for index, word in enumerate(wv.index_to_key):
         if index == 5:
             break
