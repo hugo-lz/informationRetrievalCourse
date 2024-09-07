@@ -36,7 +36,6 @@ class MySearcher:
 
 if __name__ == '__main__':
     index_folder = '../whooshindex'
-    language = 'spanish'
     i = 1
     while (i < len(sys.argv)):
         if sys.argv[i] == '-index':
@@ -44,7 +43,7 @@ if __name__ == '__main__':
             i = i + 1
         i = i + 1
 
-    searcher = MySearcher(index_folder, language)
+    searcher = MySearcher(index_folder)
 
     #query = 'first'
     query = input('Introduce a query: ')

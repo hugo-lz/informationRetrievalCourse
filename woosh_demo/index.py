@@ -38,10 +38,10 @@ class MyIndex:
 
     def index_txt_doc(self, foldername,filename):
         file_path = os.path.join(foldername, filename)
-        print(file_path)
+        # print(file_path)
         with open(file_path) as fp:
             text = ' '.join(line for line in fp if line)
-        print(text)
+        # print(text)
         self.writer.add_document(path=filename, content=text)
 
     def index_xml_doc(self, foldername, filename):
