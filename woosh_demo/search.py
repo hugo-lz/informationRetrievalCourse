@@ -11,6 +11,7 @@ Usage: python search.py -index <index folder>
 import sys
 
 from whoosh.qparser import QueryParser
+from whoosh.qparser import OrGroup
 from whoosh import scoring
 import whoosh.index as index
 
@@ -23,7 +24,7 @@ class MySearcher:
         else:
             # Apply the probabilistic BM25F model, the default model in searcher method
             self.searcher = ix.searcher()
-        self.parser = QueryParser("content", ix.schema)
+        self.parser = QueryParser("content", ix.schema, group = OrGroup)
 
     def search(self, query_text):
         query = self.parser.parse(query_text)
