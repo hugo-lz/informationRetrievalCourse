@@ -1,9 +1,9 @@
 """
-index.py
+search.py
 Author: Javier Nogueras Iso
-Last update: 2023-09-22
+Last update: 2024-09-07
 
-Program to search a free text query on a previously created term-document matrix index with either a vector model (tf-idf) or OkapiBM25 model
+Program to search a free text query on a previously created inverted index with either a vector model (tf-idf) or OkapiBM25 model
 This program is based on the gensim Python library. See https://github.com/RaRe-Technologies/gensim/#documentation .
 Usage: python search.py -index <index folder> -language <english|spanish>
 """
@@ -14,6 +14,7 @@ from gensim import similarities
 
 from gensim_demo import index
 import sys
+import json
 
 def search(index_folder, query):
     dictionary = corpora.Dictionary.load(index.get_dictionary_file_name(index_folder))
@@ -30,11 +31,20 @@ def search(index_folder, query):
     sims = index_matrix[model[query_bow]]
 
     print('Returned documents:')
+
+    # Load the file_paths to display meaningful results
+    with open(index.get_paths_file_name(index_folder), 'r') as f:
+        file_paths = json.load(f)
+
+    i = 1
     for document_number, score in sorted(enumerate(sims), key=lambda x: x[1], reverse=True):
-        print(document_number, score)
+        if score == 0.0 or i > 100:
+            break
+        print(f'{i} - File path: {file_paths[document_number]}, Similarity score: {score}')
+        i += 1
 
 if __name__ == '__main__':
-    index_folder = '../index'
+    index_folder = '../gensimindex'
     i = 1
     while (i < len(sys.argv)):
         if sys.argv[i] == '-index':
