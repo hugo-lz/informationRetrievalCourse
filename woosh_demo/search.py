@@ -4,7 +4,7 @@ Author: Javier Nogueras Iso
 Last update: 2024-09-07
 
 Program to search a free text query on a previously created inverted index.
-This program is based on the whoosh library. See https://whoosh.readthedocs.io/en/latest/index.html .
+This program is based on the whoosh library. See https://pypi.org/project/Whoosh/ .
 Usage: python search.py -index <index folder>
 """
 

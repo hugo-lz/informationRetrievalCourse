@@ -4,7 +4,7 @@ Author: Javier Nogueras Iso
 Last update: 2024-09-07
 
 Simple program to create an inverted index with the contents of text/xml files contained in a docs folder
-This program is based on the whoosh library. See https://whoosh.readthedocs.io/en/latest/index.html .
+This program is based on the whoosh library. See https://pypi.org/project/Whoosh/ .
 Usage: python index.py -index <index folder> -docs <docs folder>
 """
 
