@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     searcher = MySearcher(index_folder)
 
-    #query = 'first'
+    #query = 'System engineering'
     query = input('Introduce a query: ')
     while query != 'q':
         searcher.search(query)
