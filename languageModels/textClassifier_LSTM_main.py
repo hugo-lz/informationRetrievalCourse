@@ -30,7 +30,7 @@ def createModel(vocSize):
 #-------------------------------------------------------------------------------
 # Carga de datos, entrenamiento y test del modelo anteriormente definido.
 #-------------------------------------------------------------------------------
-EPOCHS = 10 # Número de iteraciones en los datos a entrenar. Este modelo requiere unas X para que el error converja, pero no hay apenas diferencia.
+EPOCHS = 20 # Número de iteraciones en los datos a entrenar. 5 min de entrenamiento.
 if __name__ == '__main__': 
     set_random_seed(0) # Fijamos las semillas de los generadores de números aleatorios usados para tener reproducibilidad.
     data, _, vocSize = dataReader(0.1) # Los ficheros de entrenamiento y test a leer son fijos en la práctica. La capa de embeddings requiere enteros no normalizados.

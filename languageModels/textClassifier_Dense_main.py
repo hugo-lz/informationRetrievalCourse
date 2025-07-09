@@ -23,7 +23,7 @@ def createModel():
 #-------------------------------------------------------------------------------
 # Carga de datos, entrenamiento y test del modelo anteriormente definido.
 #-------------------------------------------------------------------------------
-EPOCHS = 20 # Número de iteraciones en los datos a entrenar. Este modelo requiere unas 8000 para que el error converja, pero hay poca diferencia.
+EPOCHS = 80 # Número de iteraciones en los datos a entrenar. 3 minutos de entrenamiento.
 if __name__ == '__main__': 
     set_random_seed(0) # Fijamos las semillas de los generadores de números aleatorios usados para tener reproducibilidad.
     data, _, _ = dataReader(normalize = True) # Los ficheros de entrenamiento y test a leer son fijos en la práctica. Normalizamos las X de entrenamiento para pasárselos a la red densa.

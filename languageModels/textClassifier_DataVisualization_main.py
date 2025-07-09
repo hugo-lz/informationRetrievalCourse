@@ -14,7 +14,7 @@ if __name__ == '__main__':
     # La estructura de los datos es un fichero tabular con titulo, descripción y categoría.
     # La descripción a veces incluye la agencia de noticias y a veces no.
     pd.set_option('display.max_columns', None)
-    df = pd.read_csv('datos/clasificacionEntrenamiento.csv', index_col=False)
+    df = pd.read_csv('data/clasificacionEntrenamiento.csv', index_col=False)
     print('---------------------------------------------------')
     print('First and last data rows')
     print('---------------------------------------------------')

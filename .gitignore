@@ -162,3 +162,5 @@ cython_debug/
 /vectors.kv
 /vectors.kv.vectors.npy
 /whooshindex/
+/rdflib_demo/results/
+/languageModels/results/

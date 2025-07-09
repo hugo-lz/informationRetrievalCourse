@@ -78,11 +78,13 @@ class Chronometer:
 #-------------------------------------------------------------------------------     
 # Método para guardar la gráfica de una serie de datos. Se usa para guardar la evolución del entrenamiento (precisión/error).
 #-------------------------------------------------------------------------------
-def saveTrainingGraph(data, X_label, Y_label, fileName=None):
+def saveTrainingGraph(data, data2, label, label2, X_label, Y_label, fileName):
     plt.figure(figsize=(10, 5))
-    plt.plot(data)
+    plt.plot(data, label=label)
+    if data2 is not None: plt.plot(data2, label=label2)
     plt.xlabel(X_label, fontsize=15)
     plt.ylabel(Y_label, fontsize=15)
+    plt.legend()
     plt.savefig(fileName, bbox_inches='tight')
 
 #-------------------------------------------------------------------------------     
@@ -103,8 +105,8 @@ def saveResults(model, history, trainingTime, X_test, y_test, dir):
     summary = '\n'.join(summary_str)
     
     # Se guarda la evolución de la precisión y error durante el entrenamiento.
-    saveTrainingGraph(history.history['accuracy'], 'Epoch', 'Precision', dir+'/trainingAccuracy.jpg')
-    saveTrainingGraph(history.history['loss'], 'Epoch', 'Error', dir+'/trainingLoss.jpg')
+    saveTrainingGraph(history.history['accuracy'], None, "Accuracy", None, 'Epoch', 'Precision', dir+'/trainingAccuracy.jpg')
+    saveTrainingGraph(history.history['loss'], history.history['val_loss'], 'Training Loss', 'Validation Loss','Epoch', 'Error', dir+'/trainingLoss.jpg')
     
     # Se guarda el tiempo de entrenamiento, estructura del modelo y su precisión.
     with open(dir+'/testResults.txt', 'w', encoding='utf-8', errors='ignore') as f:

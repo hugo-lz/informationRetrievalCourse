@@ -52,10 +52,10 @@ def fusekiConfiguration(dataset_name, config_file, rdf_file):
 # La carga por API web es lenta, le costará un minuto o más ejecutarse.
 # ------------------------------------------------------
 
-CONFIG_FILE_BOOKS = "data/input/datasetExample2.ttl"  # Archivo de configuración del almacén RDF
-RDF_FILE_BOOKS = "data/input/libros2.ttl" # Archivo RDF a cargar
-CONFIG_FILE_BBC = "data/input/datasetExample3.ttl"  # Archivo de configuración del almacén RDF
-RDF_FILE_BBC = "data/input/bbcColeccion.ttl" # Archivo RDF a cargar
+CONFIG_FILE_BOOKS = "data/datasetExample2.ttl"  # Archivo de configuración del almacén RDF
+RDF_FILE_BOOKS = "data/books2.ttl" # Archivo RDF a cargar
+CONFIG_FILE_BBC = "data/datasetExample3.ttl"  # Archivo de configuración del almacén RDF
+RDF_FILE_BBC = "data/bbcColeccion.ttl" # Archivo RDF a cargar
 
 if __name__ == "__main__":
     fusekiConfiguration("datasetExample2", CONFIG_FILE_BOOKS, RDF_FILE_BOOKS)

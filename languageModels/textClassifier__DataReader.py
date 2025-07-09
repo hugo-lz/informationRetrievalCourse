@@ -24,9 +24,9 @@ def __readDataframe(file):
 #-------------------------------------------------------------------------------
 def dataReader(fraction = 1, normalize = False):
     # Cargamos los datos de entrenamiento y test.
-    trainingDataset = __readDataframe('datos/clasificacionEntrenamiento.csv')
+    trainingDataset = __readDataframe('data/clasificacionEntrenamiento.csv')
     trainingDataset = trainingDataset.sample(frac=fraction, random_state=0)
-    testDataset = __readDataframe('datos/clasificacionTest.csv')
+    testDataset = __readDataframe('data/clasificacionTest.csv')
     
     #Limpiamos los textos de caracteres no alfanuméricos.
     X_train = cleanTexts(trainingDataset['Text'].values)

@@ -133,7 +133,7 @@ def constructAGraph(model):
 
 if __name__ == "__main__":
     model = Graph()
-    model.parse("data/input/tblFoafGraph.ttl", format="turtle")
+    model.parse("data/tblFoafGraph.rdf", format="turtle")
 
     # Definimos los recursos usados en las consultas
     resource_uri = URIRef("http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf")

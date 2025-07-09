@@ -25,7 +25,7 @@ def trainerTester(model, data, epochs, dir):
     print('-     -     -     -     -     -     -     -     -     ')
     # Entrenamos el modelo con los datos disponibles.
     with Chronometer() as chronometer:
-        history = model.fit(X_train, y_train, epochs=epochs, batch_size=64, verbose=0)         
+        history = model.fit(X_train, y_train, epochs=epochs, batch_size=64, validation_split=0.2, verbose=0)         
 
     # Guardamos el modelo y los resultados del entrenamiento.
     saveResults(model, history, chronometer.message, X_test, y_test, dir)

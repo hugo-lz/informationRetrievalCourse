@@ -61,7 +61,7 @@ def icorrectTextQuery(sparql):
 # Consulta basada en índices de texto con optional, esta forma de construir la consulta SI que permite integrar
 # información de múltiples índices. El único problema es la existencia de duplicados según se construya la consulta.
 def correctTextQueryWithDuplicates(sparql):
-    print("\n[2] Consulta con índice de texto, ranking correcto pero con duplicados:")
+    print("\n[3] Consulta con índice de texto, ranking correcto pero con duplicados:")
     query = """
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
     PREFIX text: <http://jena.apache.org/text#>
@@ -79,7 +79,7 @@ def correctTextQueryWithDuplicates(sparql):
 
 # Igual que la anterior pero eliminando los duplicados y por tanto obteniendo el resultado deseado.
 def correctTextQueryWithoutDuplicates(sparql):
-    print("\n[2] Consulta con índice de texto, ranking correcto y sin duplicados:")
+    print("\n[4] Consulta con índice de texto, ranking correcto y sin duplicados:")
     query = """
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
     PREFIX text: <http://jena.apache.org/text#>

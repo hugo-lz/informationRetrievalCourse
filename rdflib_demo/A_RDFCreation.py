@@ -74,7 +74,7 @@ def createGraphPredefined():
 # Función main que crea los dos grafos anteriores, uno lo muestra en pantalla y el otro lo guarda en fichero,
 # para posteriormente cargarlo y mostrarlo por pantalla.
 # ------------------------------------------------------
-outputDir = "data/output/"
+outputDir = "results/"
 if __name__ == "__main__":
     # Configuración principal
     print("----------------------------------------------------")
