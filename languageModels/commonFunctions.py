@@ -57,8 +57,8 @@ def tokenizeText(X_train, X_test, maxLength=200):
     maxNumTokens = min(np.max([len(row) for row in X_train] + [len(row) for row in X_test]),maxLength)
     
     # Convertimos el texto a números y ajustamos la longitud de las frases al tamaño máximo elegido.
-    X_trainNumeric = pad_sequences(t.texts_to_sequences(X_train), maxlen=maxNumTokens)
-    X_testNumeric = pad_sequences(t.texts_to_sequences(X_test), maxlen=maxNumTokens)
+    X_trainNumeric = pad_sequences(t.texts_to_sequences(X_train), maxlen=maxNumTokens, padding='post')
+    X_testNumeric = pad_sequences(t.texts_to_sequences(X_test), maxlen=maxNumTokens, padding='post')
     return X_trainNumeric, X_testNumeric, t
     
 #-------------------------------------------------------------------------------
