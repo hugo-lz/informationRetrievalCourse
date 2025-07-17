@@ -24,7 +24,7 @@ def createModel(vocSize):
     model.add(LSTM(32))
     model.add(Dense(12, activation = 'relu'))
     model.add(Dense(4, activation = 'softmax'))
-    model.compile(loss = 'CategoricalCrossentropy', optimizer = Adam(1e-4), metrics = ['accuracy'])
+    model.compile(loss = 'CategoricalCrossentropy', optimizer = Adam(1e-4), metrics = ['accuracy']) # type: ignore
     return model
 
 #-------------------------------------------------------------------------------
@@ -33,5 +33,5 @@ def createModel(vocSize):
 EPOCHS = 20 # Número de iteraciones en los datos a entrenar. 5 min de entrenamiento.
 if __name__ == '__main__': 
     set_random_seed(0) # Fijamos las semillas de los generadores de números aleatorios usados para tener reproducibilidad.
-    data, _, vocSize = dataReader(0.1) # Los ficheros de entrenamiento y test a leer son fijos en la práctica. La capa de embeddings requiere enteros no normalizados.
+    data, _, vocSize = dataReader(0.1) # type: ignore # Los ficheros de entrenamiento y test a leer son fijos en la práctica. La capa de embeddings requiere enteros no normalizados.
     trainerTester(createModel(vocSize), data, EPOCHS, 'textClassifier_LSTM') # El destino de los resultados generados también es fijo en la práctica.

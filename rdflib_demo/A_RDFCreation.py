@@ -77,15 +77,15 @@ def createGraphPredefined():
 outputDir = "results/"
 if __name__ == "__main__":
     # Configuración principal
-    print("----------------------------------------------------")
-    print("Modelo creado definiendo los recursos desde cero")
-    print("----------------------------------------------------")
+    print('----------------------------------------------------')
+    print('Modelo creado definiendo los recursos desde cero')
+    print('----------------------------------------------------')
     model1 = createGraphFromScratch()
     print(model1.serialize(format="turtle"))
 
-    print("----------------------------------------------------")
-    print("Modelo creado usando recursos predefinidos en RDFLIB")
-    print("----------------------------------------------------")
+    print('----------------------------------------------------')
+    print('Modelo creado usando recursos predefinidos en RDFLIB')
+    print('----------------------------------------------------')
     model2 = createGraphPredefined()
     os.makedirs(outputDir, exist_ok=True)
     model2.serialize(outputDir+"foafGraph.ttl", format="turtle")

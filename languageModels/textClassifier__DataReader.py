@@ -5,7 +5,8 @@
 
 # Importaciones requeridas.
 import pandas as pd, numpy as np
-from commonFunctions import tokenizeText, cleanTexts, to_categorical
+from commonFunctions import cleanTexts, to_categorical, TextVectorization
+
 
 #-------------------------------------------------------------------------------
 # Método para leer los ficheros tabulares del ejemplo de clasificación de texto (clasificación, título y descripción)
@@ -33,9 +34,13 @@ def dataReader(fraction = 1, normalize = False):
     X_test = cleanTexts(testDataset['Text'].values)
     
     #Convertimos el texto en secuencias numéricas y las categorías a representación one-hot.
-    X_train, X_test, t = tokenizeText(X_train, X_test)
-    y_train = to_categorical(trainingDataset['Class Index'].values - 1)
-    y_test = to_categorical(testDataset['Class Index'].values - 1)
+    vectorizer = TextVectorization(max_tokens=None,output_mode='int', output_sequence_length=200)
+    vectorizer.adapt(X_train)
+    X_train = vectorizer(X_train)
+    X_test = vectorizer(X_test)
+    y_train = to_categorical(trainingDataset['Class Index'].values - 1) # type: ignore
+    y_test = to_categorical(testDataset['Class Index'].values - 1) # type: ignore
+    
     
     # Si hay que normalizar las Xs, las pasamos al rango 0-1.
     if normalize:
@@ -43,4 +48,4 @@ def dataReader(fraction = 1, normalize = False):
         X_test = (X_test - np.min(X_test)) / (np.max(X_test) - np.min(X_test))
     
     # Se devuelven las colecciones de entrenamiento y test empaquetadas, la longitud  de las frases de entrada, y el vocabulario de palabras conocidas.                
-    return (X_train, y_train, X_test, y_test), len(X_train[0]), len(t.word_index)
+    return (X_train, y_train, X_test, y_test), len(X_train[0]), len(vectorizer.get_vocabulary())

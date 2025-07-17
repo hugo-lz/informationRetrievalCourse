@@ -10,11 +10,11 @@ from rdflib import Graph, URIRef, Literal
 
 # Recorre todas las triples del modelo y muestra aquellas que el objeto es un Literal.
 def searchLiteralTriplesAPI(model):
-    print("Tripletas del modelo que contienen literales:")
+    print('Tripletas del modelo que contienen literales:')
     for subj, pred, obj in model:
         if isinstance(obj, Literal):
             print(f"{subj} - {pred} - {obj}")
-    print("----------------------------------------")
+    print('----------------------------------------')
 
 # Dado un recurso, busca todas las tripletas de dicho recurso como sujeto y las muestra.
 # Eso lo hace buscando tripletas con restricciones.

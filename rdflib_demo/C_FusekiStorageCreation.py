@@ -4,10 +4,10 @@
 import requests, time
 
 # Configuración del servicio FUSEKI
-FUSEKI_HOST = "http://localhost:3030"
-DATASET_NAME = "datasetExample2"
-ADMIN_USER = "admin"
-ADMIN_PASS = "admin"
+FUSEKI_HOST = 'http://localhost:3030'
+DATASET_NAME = 'datasetExample2'
+ADMIN_USER = 'admin'
+ADMIN_PASS = 'admin'
 
 # Crea un almacén RDF nuevo en el servicio de FUSEKI
 # La configuración de dicho almacén es la indicada en el fichero config_file
@@ -42,9 +42,9 @@ def fusekiConfiguration(dataset_name, config_file, rdf_file):
         if response.status_code == 200:
             print(f" Archivo '{rdf_file}' cargado")
         else:
-            print(f" Error cargando archivo: {response.status_code} - {response.text}")
+            print(f' Error cargando archivo: {response.status_code} - {response.text}')
     else:
-        print(f"Error creando dataset: {response.status_code} - {response.text}")
+        print(f'Error creando dataset: {response.status_code} - {response.text}')
 
 # ------------------------------------------------------
 # Función main que define almacénes rdf y carga un fichero en él.
@@ -52,8 +52,8 @@ def fusekiConfiguration(dataset_name, config_file, rdf_file):
 # La carga por API web es lenta, le costará un minuto o más ejecutarse.
 # ------------------------------------------------------
 
-CONFIG_FILE_BOOKS = "data/datasetExample2.ttl"  # Archivo de configuración del almacén RDF
-RDF_FILE_BOOKS = "data/books2.ttl" # Archivo RDF a cargar
+CONFIG_FILE_BOOKS = 'data/datasetExample2.ttl'  # Archivo de configuración del almacén RDF
+RDF_FILE_BOOKS = 'data/books2.ttl' # Archivo RDF a cargar
 CONFIG_FILE_BBC = "data/datasetExample3.ttl"  # Archivo de configuración del almacén RDF
 RDF_FILE_BBC = "data/bbcColeccion.ttl" # Archivo RDF a cargar
 

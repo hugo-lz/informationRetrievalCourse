@@ -7,10 +7,10 @@
 import requests
 
 # Configuración del servicio FUSEKI
-FUSEKI_HOST = "http://localhost:3030"
-DATASET_NAME = "datasetExample2"
-ADMIN_USER = "admin"
-ADMIN_PASS = "admin"
+FUSEKI_HOST = 'http://localhost:3030'
+DATASET_NAME = 'datasetExample2'
+ADMIN_USER = 'admin'
+ADMIN_PASS = 'admin'
 
 # Borra el contenido del almacén rdf usando una consulta SPARQL.
 def rdfDelete():
@@ -38,11 +38,11 @@ def datasetRemoval():
 if __name__ == "__main__":
     response = rdfDelete()
     if response.status_code in [200, 204]:
-        print("Contenido borrado correctamente")
+        print('Contenido borrado correctamente')
         response = datasetRemoval()
         if response.status_code in [200, 204]:
             print(f"Dataset '{DATASET_NAME}' eliminado correctamente")
         else:
-            print(f"Error eliminando dataset: {response.status_code} - {response.text}")
+            print(f'Error eliminando dataset: {response.status_code} - {response.text}')
     else:
-        print(f"Error borrando contenido: {response.status_code} - {response.text}")
+        print(f'Error borrando contenido: {response.status_code} - {response.text}')

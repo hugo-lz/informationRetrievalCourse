@@ -28,11 +28,20 @@ def trainerTester(model, data, epochs, dir):
         history = model.fit(X_train, y_train, epochs=epochs, batch_size=64, validation_split=0.2, verbose=0)         
 
     # Guardamos el modelo y los resultados del entrenamiento.
-    saveResults(model, history, chronometer.message, X_test, y_test, dir)
+    saveResults(model, history, chronometer.message, dir)
     with open(dir+'/testResults.txt', 'a', encoding='utf-8', errors='ignore') as f:
         printAll = lambda *args: (print(*args), print(*args, file=f))
+        
+        #Guardamos la precisión del modelo en el test set.
+        scores = model.evaluate(X_test, y_test, verbose=0)
+        printAll('Model precision: {:.2%}'.format(scores[1])) 
+        
         # Guardamos un ejemplo de una clasificación.
-        printAll("Classification result of first element in test set")
-        printAll("Real category: ", np.argmax(y_test[0]) + 1, " Predicted Category: ",
+        printAll('Classification result of first element in test set')
+        printAll('Real category: ', np.argmax(y_test[0]) + 1, ' Predicted Category: ',
                 np.argmax(model.predict(np.expand_dims(X_test[0], axis=0), verbose=0)[0]) + 1)
         print('')
+        
+        
+        
+        

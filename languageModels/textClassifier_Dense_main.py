@@ -17,7 +17,7 @@ def createModel():
     model.add(Dense(32, activation='relu'))
     model.add(Dense(12, activation='relu'))
     model.add(Dense(4, activation='softmax'))
-    model.compile(loss='CategoricalCrossentropy', optimizer=Adam(1e-4), metrics=['accuracy'])
+    model.compile(loss='CategoricalCrossentropy', optimizer=Adam(1e-4), metrics=['accuracy']) # type: ignore
     return model
 
 #-------------------------------------------------------------------------------

@@ -8,7 +8,7 @@
 
 # Importaciones requeridas.
 import commonFunctions
-from commonFunctions import set_random_seed, Sequential, Adam, Dense, GlobalAveragePooling1D, TransformerEncoder, TokenAndPositionEmbedding
+from commonFunctions import set_random_seed, Sequential, Adam, Dense, GlobalAveragePooling1D, TransformerEncoder, TokenAndPositionEmbedding # type: ignore
 from textClassifier__TrainerTester import trainerTester
 from textClassifier__DataReader import dataReader
 
@@ -29,7 +29,7 @@ def createModel(tamVoc,tamFrase):
     model.add(GlobalAveragePooling1D())  # Otra alternativa es GlobalMaxPooling1D que captura las características dominantes en vez de mediar la información de todas las palabras.
     model.add(Dense(12, activation='relu'))
     model.add(Dense(4, activation='softmax'))
-    model.compile(loss='CategoricalCrossentropy', optimizer=Adam(1e-4), metrics=['accuracy'])
+    model.compile(loss='CategoricalCrossentropy', optimizer=Adam(1e-4), metrics=['accuracy']) # type: ignore
     return model
 
 #-------------------------------------------------------------------------------
@@ -38,5 +38,5 @@ def createModel(tamVoc,tamFrase):
 EPOCHS = 10 # Número de iteraciones en los datos a entrenar. 5 minutos de entrenamiento.
 if __name__ == '__main__': 
     set_random_seed(0) # Fijamos las semillas de los generadores de números aleatorios usados para tener reproducibilidad.
-    data, textSize, vocSize = dataReader(0.1) # Los ficheros de entrenamiento y test a leer son fijos en la práctica. La capa de embeddings requiere enteros no normalizados.
+    data, textSize, vocSize = dataReader(0.1) # type: ignore # Los ficheros de entrenamiento y test a leer son fijos en la práctica. La capa de embeddings requiere enteros no normalizados.
     trainerTester(createModel(vocSize, textSize), data, EPOCHS, 'textClassifier_Transformer') # El destino de los resultados generados también es fijo en la práctica.
