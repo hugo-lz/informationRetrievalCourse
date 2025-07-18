@@ -22,7 +22,7 @@ from keras.optimizers import Adam, RMSprop # type: ignore
 # noinspection PyUnresolvedReferences
 from keras.layers import Dense, Embedding, LSTM, GlobalAveragePooling1D, RepeatVector, TimeDistributed, TextVectorization # type: ignore
 # noinspection PyUnresolvedReferences
-from keras_nlp.layers import TransformerEncoder, TokenAndPositionEmbedding # type: ignore 
+from keras_nlp.layers import TransformerEncoder, TokenAndPositionEmbedding, TransformerDecoder # type: ignore 
 # noinspection PyUnresolvedReferences
 from keras.utils import set_random_seed, to_categorical, pad_sequences # type: ignore
 
