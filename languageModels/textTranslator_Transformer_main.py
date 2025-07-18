@@ -15,9 +15,9 @@ from textTranslator__TrainerTester import trainerTester
 # Modelo mínimo para traducción de texto. Necesita GPU para una ejecución en un tiempo razonable (15 min).
 #-------------------------------------------------------------------------------
 def createModel(vocabSize, seqLen):
-    EMBEDDINGS_SIZE = 256 # Número de dimensiones del vector de Embeddings
-    LATENT_DIM = 2048 # Dimensión de la capa intermedia densa del transformer encoder.
-    NUM_HEADS = 8 # Número de heads de atención.
+    EMBEDDINGS_SIZE = 512 # Número de dimensiones del vector de Embeddings
+    LATENT_DIM = 4096 # Dimensión de la capa intermedia densa del transformer encoder.
+    NUM_HEADS = 16 # Número de heads de atención.
     
     # Capas que definen el el encoder. 
     # La capa de embeddings requiere el tamaño del diccionario, la longitud de las frases (la frase mas larga) y el tamaño de los embeddings
