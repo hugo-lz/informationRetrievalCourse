@@ -10,8 +10,11 @@ Usage: python index.py -index <index folder> -docs <docs folder>
 
 from whoosh.index import create_in
 from whoosh.fields import *
+from whoosh.analysis import LanguageAnalyzer
 
 import os
+
+import datetime
 
 import xml.etree.ElementTree as ET
 
@@ -21,7 +24,13 @@ def create_folder(folder_name):
 
 class MyIndex:
     def __init__(self,index_folder):
-        schema = Schema(path=ID(stored=True), content=TEXT)
+        language_analyzer = LanguageAnalyzer(lang="es", expression=r"\w+")
+        schema = Schema(path=ID(stored=True), 
+                        content=TEXT(analyzer=language_analyzer), 
+                        title=TEXT(analyzer=language_analyzer), 
+                        subject=TEXT(analyzer=language_analyzer),
+                        description=TEXT(analyzer=language_analyzer),
+                        modified=STORED)
         create_folder(index_folder)
         index = create_in(index_folder, schema)
         self.writer = index.writer()
@@ -42,18 +51,27 @@ class MyIndex:
         with open(file_path) as fp:
             text = ' '.join(line for line in fp if line)
         # print(text)
-        self.writer.add_document(path=filename, content=text)
+        modified = datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%a, %d %b %Y %H:%M:%S +0000')
+        self.writer.add_document(path=filename, content=text, modified=modified )
 
     def index_xml_doc(self, foldername, filename):
         file_path = os.path.join(foldername, filename)
-        # print(file_path)
         tree = ET.parse(file_path)
         root = tree.getroot()
+        title = ' '.join([elem.text.strip() for elem in root.findall('.//{*}title') if elem.text])
+        subject = ' '.join([elem.text.strip() for elem in root.findall('.//{*}subject') if elem.text])
+        description = ' '.join([elem.text.strip() for elem in root.findall('.//{*}description') if elem.text])
         raw_text = "".join(root.itertext())
-        # break into lines and remove leading and trailing space on each
         text = ' '.join(line.strip() for line in raw_text.splitlines() if line)
-        # print(text)
-        self.writer.add_document(path=filename,content=text)
+        modified = datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%a, %d %b %Y %H:%M:%S +0000')
+        self.writer.add_document(
+            path=filename,
+            content=text,
+            title=title,
+            subject=subject,
+            description=description,
+            modified=modified
+        )
 
 if __name__ == '__main__':
 

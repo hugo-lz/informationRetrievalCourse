@@ -16,7 +16,7 @@ from whoosh import scoring
 import whoosh.index as index
 
 class MySearcher:
-    def __init__(self, index_folder, model_type = 'tfidf'):
+    def __init__(self, index_folder, model_type = 'tfidf', info=False):
         ix = index.open_dir(index_folder)
         if model_type == 'tfidf':
             # Apply a vector retrieval model as default
@@ -25,26 +25,32 @@ class MySearcher:
             # Apply the probabilistic BM25F model, the default model in searcher method
             self.searcher = ix.searcher()
         self.parser = QueryParser("content", ix.schema, group = OrGroup)
+        self.info = info
 
-    def search(self, query_text):
+    def search(self, query_text, limit=None):
         query = self.parser.parse(query_text)
-        results = self.searcher.search(query)
+        results = self.searcher.search(query, limit=limit)
         print('Returned documents:')
         i = 1
         for result in results:
             print(f'{i} - File path: {result.get("path")}, Similarity score: {result.score}')
+            if self.info:
+                print(f'Modified : {result.get("modified")}')
             i += 1
 
 if __name__ == '__main__':
+    info = False
     index_folder = '../whooshindex'
     i = 1
     while (i < len(sys.argv)):
         if sys.argv[i] == '-index':
             index_folder = sys.argv[i+1]
             i = i + 1
+        if sys.argv[i] == '-info':
+            info = True
         i = i + 1
 
-    searcher = MySearcher(index_folder)
+    searcher = MySearcher(index_folder, info=info)
 
     #query = 'System engineering'
     query = input('Introduce a query: ')
