@@ -36,6 +36,10 @@ class MySearcher:
             print(f'{i} - File path: {result.get("path")}, Similarity score: {result.score}')
             if self.info:
                 print(f'Modified : {result.get("modified")}')
+
+            print(f'Content : {result.get("content")}')
+            print('title: ', result.get("title"))
+            print('subject: ', result.get("subject"))
             i += 1
 
 if __name__ == '__main__':
